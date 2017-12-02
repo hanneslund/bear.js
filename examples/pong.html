@@ -1,0 +1,188 @@
+<!doctype html>
+<title>Pong</title>
+<style>
+body {
+  margin: 0;
+  display: grid;
+  height: 100vh;
+  background-color: #222;
+  font-family: "Press Start 2P";
+  color: white;
+}
+
+#landingpad {
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+canvas {
+  grid-column: span 2;
+}
+
+.text-right {
+  text-align: right;
+}
+</style>
+<body>
+<div id="landingpad">
+  <div>W - up, S - down</div>
+  <div class="text-right">▲️ - up, ▼ - down</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+<script src="https://unpkg.com/bear.js@latest/dist/pixiram.umd.js"></script>
+<script>
+const { game, text, sprite, Point, Rectangle } = window.pixiram
+
+const fontStyle = { fill: 0xffffff, fontSize: 50, fontFamily: "Press Start 2P" }
+const gameWidth = 900
+const gameHeight = 500
+const ballWidth = 16
+const paddleWidth = 16
+const paddleHeight = 64
+
+const initBallPos = Point(gameWidth / 2 - ballWidth / 2, gameHeight / 2 - ballWidth / 2)
+const ballSpeed = Point(13, 13)
+const paddleSpeed = Point(0, 10)
+const aimPointOffset = 40
+
+const renderGame = () =>
+  game(
+    {
+      textures: [
+        { name: "paddle", url: "paddle.png" },
+        { name: "ball", url: "ball.png" }
+      ],
+      state: {
+        ball: {
+          position: initBallPos,
+          direction: Point(1, 0)
+        },
+        leftPaddle: {
+          position: Point(paddleWidth * 2, gameHeight / 2 - paddleHeight / 2),
+          score: 0
+        },
+        rightPaddle: {
+          position: Point(
+            gameWidth - paddleWidth * 3,
+            gameHeight / 2 - paddleHeight / 2
+          ),
+          score: 0
+        }
+      },
+      update: ({ state: { ball, leftPaddle, rightPaddle }, keyboard }) => {
+        const ballRect = Rectangle({
+          position: ball.position,
+          width: ballWidth,
+          height: ballWidth
+        })
+        const leftPaddleRect = Rectangle({
+          position: leftPaddle.position,
+          width: paddleWidth,
+          height: paddleHeight
+        })
+        const rightPaddleRect = Rectangle({
+          position: rightPaddle.position,
+          width: paddleWidth,
+          height: paddleHeight
+        })
+
+        const leftPaddleCollision = ballRect.intersects(leftPaddleRect)
+        const rightPaddleCollision = ballRect.intersects(rightPaddleRect)
+
+        const leftPaddleScored = ballRect.left > gameWidth
+        const rightPaddleScored = ballRect.right < 0
+
+        let ballPos
+        if (leftPaddleScored || rightPaddleScored) {
+          ballPos = initBallPos
+        } else if (leftPaddleCollision) {
+          ballPos = ball.position.setX(leftPaddleRect.right)
+        } else if (rightPaddleCollision) {
+          ballPos = ball.position.setX(rightPaddleRect.left - ballWidth)
+        } else {
+          ballPos = ball.position
+        }
+
+        const ballBouncedOnRoofOrFloor =
+          ball.position.y < 0 || ball.position.y > gameHeight - ballWidth
+
+        let ballDir
+        if (leftPaddleScored || rightPaddleScored) {
+          ballDir = Point(ball.direction.x < 0 ? 1 : -1, 0)
+        } else if (ballBouncedOnRoofOrFloor) {
+          ballDir = ball.direction.invertY()
+        } else if (leftPaddleCollision) {
+          ballDir = leftPaddleRect.center.directionTo(
+            ballRect.center.setX(leftPaddleRect.right + aimPointOffset)
+          )
+        } else if (rightPaddleCollision) {
+          ballDir = rightPaddleRect.center.directionTo(
+            ballRect.center.setX(rightPaddleRect.left - aimPointOffset)
+          )
+        } else {
+          ballDir = ball.direction
+        }
+        const ballVel = ballDir.multiply(ballSpeed)
+
+        return {
+          ball: {
+            position: ballPos.clampY(0, gameHeight - ballWidth).add(ballVel),
+            direction: ballDir
+          },
+          leftPaddle: {
+            position: leftPaddle.position
+              .add(keyboard.wasdDirection.multiply(paddleSpeed))
+              .clampY(0, gameHeight - paddleHeight),
+            score: leftPaddleScored ? leftPaddle.score + 1 : leftPaddle.score
+          },
+          rightPaddle: {
+            position: rightPaddle.position
+              .add(keyboard.arrowsDirection.multiply(paddleSpeed))
+              .clampY(0, gameHeight - paddleHeight),
+            score: rightPaddleScored ? rightPaddle.score + 1 : rightPaddle.score
+          }
+        }
+      },
+      render: ({ leftPaddle, rightPaddle, ball }) => [
+        sprite({
+          position: ball.position,
+          texture: "ball"
+        }),
+        sprite({
+          position: leftPaddle.position,
+          texture: "paddle"
+        }),
+        sprite({
+          position: rightPaddle.position,
+          texture: "paddle"
+        }),
+        text({
+          position: Point(20, 10),
+          content: leftPaddle.score,
+          style: fontStyle
+        }),
+        text({
+          position: Point(gameWidth - 20, 10),
+          anchor: Point(1, 0),
+          content: rightPaddle.score,
+          style: fontStyle
+        })
+      ],
+      options: {
+        width: gameWidth,
+        height: gameHeight,
+        backgroundColor: 0x000000
+      }
+    },
+    document.querySelector("#landingpad")
+  )
+
+window.WebFont.load({
+  google: {
+    families: [fontStyle.fontFamily]
+  },
+  active: renderGame
+})
+</script>
+</body>

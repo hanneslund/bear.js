@@ -1,0 +1,38 @@
+<!doctype html>
+<title>Counter</title>
+<style>
+body {
+  margin: 0;
+  display: grid;
+  height: 100vh;
+  background-color: #222;
+}
+
+#landingpad {
+  margin: auto;
+}
+</style>
+<body>
+<div id="landingpad"></div>
+<script src="https://unpkg.com/bear.js@latest/dist/pixiram.umd.js"></script>
+<script>
+const { game, text, Point } = window.pixiram
+
+game(
+  {
+    state: 0,
+    update: ({ state }) => state + 1,
+    render: state => [
+      text({
+        position: Point(150, 50),
+        content: `Renders: ${state}`,
+        anchor: Point(0.5, 0.5),
+        style: { fill: 0x000000 }
+      })
+    ],
+    options: { width: 300, height: 100, backgroundColor: 0xffffff }
+  },
+  document.querySelector("#landingpad")
+)
+</script>
+</body>
