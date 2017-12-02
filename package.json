@@ -1,15 +1,15 @@
 {
   "name": "bear.js",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "Hannes Lund <hannes.lund@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/hanneslund/bear.js.git"
   },
-  "main": "dist/pixiram.cjs.js",
-  "module": "dist/pixiram.esm.js",
-  "browser": "dist/pixiram.umd.js",
+  "main": "dist/bear.cjs.js",
+  "module": "dist/bear.esm.js",
+  "browser": "dist/bear.umd.js",
   "files": [
     "dist"
   ],
