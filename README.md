@@ -4,7 +4,7 @@
 bear.js - game engine using [pixi.js](http://www.pixijs.com/)  to render. Inspired by [ELM](http://elm-lang.org/) and [Phaser](https://phaser.io/).
 
 ## Install
-Add bear.js with npm/yarn or use [unpkg](https://unpkg.com/bear.js@latest/dist/pixiram.umd.js)
+Add bear.js with npm/yarn or use [unpkg](https://unpkg.com/bear.js@latest/dist/bear.umd.js)
 
 
 ## Examples

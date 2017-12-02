@@ -12,7 +12,7 @@ export default [
       file: pkg.browser,
       format: "umd"
     },
-    name: "pixiram",
+    name: "bear",
     plugins: [
       resolve(),
       babel({
