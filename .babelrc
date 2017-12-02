@@ -1,0 +1,24 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": "last 2 versions"
+        },
+        "loose": true,
+        "modules": false
+      }
+    ],
+    "flow"
+  ],
+  "plugins": [
+    "transform-object-rest-spread",
+    "transform-export-extensions"
+  ],
+  "env": {
+    "test": {
+      "presets": ["env", "flow"]
+    }
+  }
+}

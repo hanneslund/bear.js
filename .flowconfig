@@ -1,0 +1,5 @@
+[options]
+unsafe.enable_getters_and_setters=true
+
+[ignore]
+<PROJECT_ROOT>/node_modules/documentation/**/*
