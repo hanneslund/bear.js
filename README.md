@@ -4,8 +4,14 @@
 bear.js - game engine using [pixi.js](http://www.pixijs.com/)  to render. Inspired by [ELM](http://elm-lang.org/) and [Phaser](https://phaser.io/).
 
 ## Install
+Add bear.js with npm/yarn or use [unpkg](https://unpkg.com/bear.js@latest/dist/pixiram.umd.js)
+
 
 ## Examples
+[Counter](https://hanneslund.github.io/bear.js/examples/counter) example, the very basics. [Source](https://github.com/hanneslund/bear.js/blob/master/examples/counter.html)
+
+[Pong](https://hanneslund.github.io/bear.js/examples/pong) built with bear.js. [Source](https://github.com/hanneslund/bear.js/blob/master/examples/pong.html)
+
 
 ## Api
 
@@ -26,7 +32,7 @@ Game init function
         -   `GameArgs.options.width` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Game width (optional, default `500`)
         -   `GameArgs.options.height` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Game height (optional, default `500`)
         -   `GameArgs.options.backgroundColor` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Game background color (optional, default `0x111111`)
--   `landingpad` **[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node/nextSibling)** 
+-   `landingpad` **[Node](https://developer.mozilla.org/en-US/docs/Web/API/Node/nextSibling)**
 
 **Examples**
 
