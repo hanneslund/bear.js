@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "author": "Hannes Lund <hannes.lund@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hanneslund/bear.js.git"
+  },
   "main": "dist/pixiram.cjs.js",
   "module": "dist/pixiram.esm.js",
   "browser": "dist/pixiram.umd.js",
@@ -19,6 +23,7 @@
     "prebuild": "yarn clean",
     "build": "rollup -c",
     "prepack": "yarn test && yarn build",
+    "prepublish": "yarn test && yarn build",
     "precommit": "yarn test"
   },
   "devDependencies": {
